@@ -5,8 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { X, ChevronLeft, ChevronRight, ImageIcon, LayoutGrid } from 'lucide-react'
 import FadeIn from './FadeIn'
 
-// ─── How many thumbnails to show in the page grid ────────────────────────────
-const PREVIEW_COUNT = 9   // 3 × 3
+const PREVIEW_COUNT = 9
 
 // ─── Lightbox ────────────────────────────────────────────────────────────────
 interface LightboxProps {
@@ -16,21 +15,34 @@ interface LightboxProps {
 }
 
 function Lightbox({ images, initialIndex, onClose }: LightboxProps) {
-  const [index, setIndex] = useState(initialIndex)
-  const [dir, setDir] = useState(0)
-  const activeThumbRef = useRef<HTMLButtonElement>(null)
+  const [index, setIndex]     = useState(initialIndex)
+  const [dir, setDir]         = useState(0)
+  const [imgLoaded, setImgLoaded] = useState(false)
+  const activeThumbRef        = useRef<HTMLButtonElement>(null)
+  const touchStartX           = useRef<number | null>(null)
 
   const prev = useCallback(() => {
     setDir(-1)
+    setImgLoaded(false)
     setIndex((i) => (i - 1 + images.length) % images.length)
   }, [images.length])
 
   const next = useCallback(() => {
     setDir(1)
+    setImgLoaded(false)
     setIndex((i) => (i + 1) % images.length)
   }, [images.length])
 
-  // Keyboard navigation + lock body scroll
+  // ── Preload adjacent images so navigation feels instant ──────────────────
+  useEffect(() => {
+    const load = (src: string) => { const i = new window.Image(); i.src = src }
+    load(images[(index + 1) % images.length])
+    load(images[(index - 1 + images.length) % images.length])
+    // Also preload two ahead for fast sequential swiping
+    load(images[(index + 2) % images.length])
+  }, [index, images])
+
+  // ── Keyboard navigation + body scroll lock ───────────────────────────────
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape')     onClose()
@@ -45,19 +57,29 @@ function Lightbox({ images, initialIndex, onClose }: LightboxProps) {
     }
   }, [onClose, prev, next])
 
-  // Auto-scroll active thumbnail into view
+  // ── Keep active thumbnail in view ────────────────────────────────────────
   useEffect(() => {
     activeThumbRef.current?.scrollIntoView({
-      behavior: 'smooth',
-      block: 'nearest',
-      inline: 'center',
+      behavior: 'smooth', block: 'nearest', inline: 'center',
     })
   }, [index])
 
-  const slideVariants = {
-    enter: (d: number) => ({ x: d > 0 ? '55%' : '-55%', opacity: 0 }),
-    center: { x: 0, opacity: 1 },
-    exit:  (d: number) => ({ x: d > 0 ? '-55%' : '55%', opacity: 0 }),
+  // ── Touch swipe handlers ─────────────────────────────────────────────────
+  const onTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX
+  }
+  const onTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX.current === null) return
+    const delta = touchStartX.current - e.changedTouches[0].clientX
+    if (Math.abs(delta) > 40) delta > 0 ? next() : prev()
+    touchStartX.current = null
+  }
+
+  // ── Slide variants — NO mode="wait", both animate concurrently ───────────
+  const variants = {
+    enter:  (d: number) => ({ x: d >= 0 ? '100%' : '-100%', opacity: 0   }),
+    center:              ({ x: 0,                             opacity: 1   }),
+    exit:   (d: number) => ({ x: d >= 0 ? '-40%' : '40%',   opacity: 0   }),
   }
 
   return (
@@ -65,10 +87,10 @@ function Lightbox({ images, initialIndex, onClose }: LightboxProps) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.2 }}
-      className="fixed inset-0 z-[200] bg-black/96 backdrop-blur-sm flex flex-col"
+      transition={{ duration: 0.18 }}
+      className="fixed inset-0 z-[200] bg-black/97 flex flex-col"
     >
-      {/* ── Header bar ── */}
+      {/* ── Header ── */}
       <div className="flex-shrink-0 flex items-center justify-between px-5 py-3 border-b border-white/8">
         <span className="text-gray-400 text-sm font-mono tracking-wider">
           {String(index + 1).padStart(2, '0')} / {String(images.length).padStart(2, '0')}
@@ -79,68 +101,74 @@ function Lightbox({ images, initialIndex, onClose }: LightboxProps) {
         <button
           onClick={onClose}
           className="w-9 h-9 rounded-full bg-white/8 hover:bg-white/16 flex items-center justify-center transition-colors"
-          aria-label="Close gallery"
+          aria-label="Close"
         >
           <X size={17} className="text-white" />
         </button>
       </div>
 
       {/* ── Main image area ── */}
-      <div className="flex-1 relative overflow-hidden flex items-center justify-center">
-
-        {/* Prev arrow */}
+      <div
+        className="flex-1 relative overflow-hidden"
+        onTouchStart={onTouchStart}
+        onTouchEnd={onTouchEnd}
+      >
+        {/* Prev */}
         <button
           onClick={prev}
-          className="absolute left-3 sm:left-5 z-20 w-11 h-11 rounded-full bg-white/8 hover:bg-white/18 border border-white/10 flex items-center justify-center transition-all hover:scale-105"
-          aria-label="Previous image"
+          className="absolute left-3 sm:left-5 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-white/8 hover:bg-white/18 border border-white/10 flex items-center justify-center transition-all hover:scale-105"
+          aria-label="Previous"
         >
           <ChevronLeft size={20} className="text-white" />
         </button>
 
-        {/* Sliding image */}
-        <AnimatePresence initial={false} custom={dir} mode="wait">
+        {/* Sliding images — concurrent: new slides in while old slides out */}
+        <AnimatePresence initial={false} custom={dir}>
           <motion.div
             key={index}
             custom={dir}
-            variants={slideVariants}
+            variants={variants}
             initial="enter"
             animate="center"
             exit="exit"
-            transition={{ duration: 0.28, ease: [0.32, 0, 0.67, 0] }}
-            drag="x"
-            dragConstraints={{ left: 0, right: 0 }}
-            dragElastic={0.08}
-            onDragEnd={(_, info) => {
-              if (info.offset.x < -60) next()
-              else if (info.offset.x > 60) prev()
-            }}
-            className="absolute inset-0 flex items-center justify-center px-16 cursor-grab active:cursor-grabbing"
+            transition={{ duration: 0.32, ease: [0.32, 0.72, 0, 1] }}
+            className="absolute inset-0 flex items-center justify-center px-14 sm:px-20"
           >
-            <div className="relative w-full h-full max-w-5xl mx-auto">
+            {/* Loading shimmer — visible until image is ready */}
+            {!imgLoaded && (
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="w-10 h-10 border-2 border-white/15 border-t-crimson rounded-full animate-spin" />
+              </div>
+            )}
+            <div
+              className="relative w-full h-full transition-opacity duration-200"
+              style={{ opacity: imgLoaded ? 1 : 0 }}
+            >
               <Image
                 src={images[index]}
                 alt={`Project photo ${index + 1}`}
                 fill
                 className="object-contain"
-                sizes="(max-width: 768px) 100vw, 80vw"
+                sizes="(max-width: 768px) 100vw, 85vw"
                 priority
+                onLoad={() => setImgLoaded(true)}
               />
             </div>
           </motion.div>
         </AnimatePresence>
 
-        {/* Next arrow */}
+        {/* Next */}
         <button
           onClick={next}
-          className="absolute right-3 sm:right-5 z-20 w-11 h-11 rounded-full bg-white/8 hover:bg-white/18 border border-white/10 flex items-center justify-center transition-all hover:scale-105"
-          aria-label="Next image"
+          className="absolute right-3 sm:right-5 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-white/8 hover:bg-white/18 border border-white/10 flex items-center justify-center transition-all hover:scale-105"
+          aria-label="Next"
         >
           <ChevronRight size={20} className="text-white" />
         </button>
       </div>
 
       {/* ── Thumbnail strip ── */}
-      <div className="flex-shrink-0 border-t border-white/8 bg-black/40">
+      <div className="flex-shrink-0 border-t border-white/8 bg-black/50">
         <div
           className="flex gap-2 px-4 py-3 overflow-x-auto"
           style={{ scrollbarWidth: 'thin', scrollbarColor: '#DC143C #1a1a26' }}
@@ -151,15 +179,15 @@ function Lightbox({ images, initialIndex, onClose }: LightboxProps) {
               ref={i === index ? activeThumbRef : null}
               onClick={() => {
                 setDir(i > index ? 1 : -1)
+                setImgLoaded(false)
                 setIndex(i)
               }}
               className={`
                 relative flex-shrink-0 w-14 h-14 sm:w-16 sm:h-16 rounded-lg overflow-hidden
                 transition-all duration-200
                 ${i === index
-                  ? 'ring-2 ring-crimson ring-offset-1 ring-offset-black scale-105'
-                  : 'opacity-40 hover:opacity-75 ring-1 ring-white/10 hover:ring-white/25'
-                }
+                  ? 'ring-2 ring-crimson ring-offset-1 ring-offset-black scale-110'
+                  : 'opacity-40 hover:opacity-80 ring-1 ring-white/10'}
               `}
               aria-label={`Go to photo ${i + 1}`}
             >
@@ -172,7 +200,7 @@ function Lightbox({ images, initialIndex, onClose }: LightboxProps) {
   )
 }
 
-// ─── Main Gallery Grid ────────────────────────────────────────────────────────
+// ─── Page gallery grid ────────────────────────────────────────────────────────
 export default function GalleryGrid({ images }: { images: string[] }) {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
 
@@ -183,12 +211,9 @@ export default function GalleryGrid({ images }: { images: string[] }) {
     <>
       <section id="gallery" className="py-24 bg-dark">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
           <FadeIn className="text-center mb-14">
             <span className="text-crimson text-sm font-semibold tracking-[0.2em] uppercase">Our Work</span>
-            <h2 className="font-display text-4xl sm:text-5xl font-bold text-white mt-3">
-              Project Gallery
-            </h2>
+            <h2 className="font-display text-4xl sm:text-5xl font-bold text-white mt-3">Project Gallery</h2>
             {images.length > 0 && (
               <p className="text-gray-500 mt-3 text-sm">
                 {images.length} photos — click any image to browse
@@ -198,16 +223,14 @@ export default function GalleryGrid({ images }: { images: string[] }) {
 
           {images.length > 0 ? (
             <>
-              {/* ── 3×3 preview grid ── */}
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3">
                 {preview.map((src, i) => {
                   const isLastCell = i === PREVIEW_COUNT - 1 && remaining > 0
-
                   return (
                     <FadeIn key={src} delay={i * 0.04}>
                       <motion.button
                         whileHover={{ scale: 1.015 }}
-                        whileTap={{ scale: 0.98 }}
+                        whileTap={{ scale: 0.97 }}
                         transition={{ duration: 0.18 }}
                         onClick={() => setLightboxIndex(i)}
                         className="relative w-full aspect-square rounded-xl overflow-hidden bg-dark-200 group block focus:outline-none focus-visible:ring-2 focus-visible:ring-crimson"
@@ -220,13 +243,9 @@ export default function GalleryGrid({ images }: { images: string[] }) {
                           className="object-cover group-hover:scale-105 transition-transform duration-500"
                           sizes="(max-width: 640px) 50vw, 33vw"
                         />
-
-                        {/* Standard hover darkening */}
                         {!isLastCell && (
                           <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
                         )}
-
-                        {/* "+N more" overlay on the final cell */}
                         {isLastCell && (
                           <div className="absolute inset-0 bg-black/72 flex flex-col items-center justify-center gap-1.5 group-hover:bg-black/60 transition-colors">
                             <LayoutGrid size={26} className="text-white/80" />
@@ -242,7 +261,6 @@ export default function GalleryGrid({ images }: { images: string[] }) {
                 })}
               </div>
 
-              {/* ── View all button ── */}
               <FadeIn className="mt-8 text-center" delay={0.1}>
                 <button
                   onClick={() => setLightboxIndex(0)}
@@ -261,9 +279,9 @@ export default function GalleryGrid({ images }: { images: string[] }) {
                 </div>
                 <h3 className="font-display text-xl font-bold text-gray-500 mb-2">Gallery Coming Soon</h3>
                 <p className="text-gray-600 text-sm max-w-sm mx-auto">
-                  Drop any images (JPG, PNG, WebP, AVIF) into{' '}
+                  Drop any images into{' '}
                   <code className="text-crimson/70 bg-white/5 px-1 rounded">public/images/</code> and
-                  they appear here automatically — uniformly cropped, no stretching.
+                  they appear here automatically.
                 </p>
               </div>
             </FadeIn>
@@ -271,7 +289,6 @@ export default function GalleryGrid({ images }: { images: string[] }) {
         </div>
       </section>
 
-      {/* ── Lightbox portal ── */}
       <AnimatePresence>
         {lightboxIndex !== null && (
           <Lightbox
