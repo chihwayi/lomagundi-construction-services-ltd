@@ -39,6 +39,7 @@ export default function Navbar() {
                 src="/logo.jpeg"
                 alt="Lomagundi Construction Services Ltd"
                 fill
+                sizes="48px"
                 className="object-cover"
                 priority
               />
@@ -48,7 +49,7 @@ export default function Navbar() {
                 LOMAGUNDI
               </p>
               <p className="text-crimson text-[10px] lg:text-[11px] font-semibold tracking-[0.2em] mt-0.5">
-                CONSTRUCTION SERVICES
+                CONSTRUCTION SERVICES LTD
               </p>
             </div>
           </a>

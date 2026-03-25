@@ -25,7 +25,8 @@ const GRIT_DOTS: [number, number][] = [
 // ─── Helpers ───────────────────────────────────────────────────────────────
 function polar(deg: number, r: number): [number, number] {
   const rad = ((deg - 90) * Math.PI) / 180
-  return [C + r * Math.cos(rad), C + r * Math.sin(rad)]
+  const round = (n: number) => Math.round(n * 1e4) / 1e4
+  return [round(C + r * Math.cos(rad)), round(C + r * Math.sin(rad))]
 }
 
 function annularSector(
@@ -63,24 +64,37 @@ export default function DrillBitViz() {
         aria-label="Diamond core drill bit cross-section"
       >
         <defs>
-          {/* Metallic steel gradient for crown segments */}
+          {/* Metallic steel gradient for crown segments — brighter for visibility */}
           <linearGradient id="seg-steel" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%"   stopColor="#b0b8c4" />
-            <stop offset="40%"  stopColor="#7a8494" />
-            <stop offset="100%" stopColor="#50586a" />
+            <stop offset="0%"   stopColor="#d8dfe8" />
+            <stop offset="35%"  stopColor="#a0aab8" />
+            <stop offset="100%" stopColor="#6a7585" />
           </linearGradient>
 
-          {/* Diamond-matrix cutting face (crimson-tinted outer edge) */}
+          {/* Segment side highlight (light edge) */}
+          <linearGradient id="seg-highlight" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%"   stopColor="rgba(255,255,255,0.25)" />
+            <stop offset="100%" stopColor="rgba(255,255,255,0)" />
+          </linearGradient>
+
+          {/* Diamond-matrix cutting face (crimson outer edge) */}
           <linearGradient id="cutting-face" x1="0" y1="0" x2="1" y2="1">
             <stop offset="0%"   stopColor="#FF3A5C" />
             <stop offset="60%"  stopColor="#DC143C" />
             <stop offset="100%" stopColor="#9a0f2a" />
           </linearGradient>
 
-          {/* Barrel gradient (heavier metal) */}
+          {/* Barrel body — visible steel, not too dark */}
           <linearGradient id="barrel" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%"   stopColor="#3a4050" />
-            <stop offset="100%" stopColor="#1e2230" />
+            <stop offset="0%"   stopColor="#4a5468" />
+            <stop offset="50%"  stopColor="#323a4a" />
+            <stop offset="100%" stopColor="#252d3d" />
+          </linearGradient>
+
+          {/* Outer barrel ring — slightly lighter to frame the crown */}
+          <linearGradient id="barrel-outer" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%"   stopColor="#5a6478" />
+            <stop offset="100%" stopColor="#3a4255" />
           </linearGradient>
 
           {/* Radial vignette for depth */}
@@ -127,13 +141,12 @@ export default function DrillBitViz() {
           transition={{ duration: 9, repeat: Infinity, ease: 'linear' }}
           style={{ transformOrigin: `${C}px ${C}px` }}
         >
-          {/* Outer barrel body ring */}
-          <circle
-            cx={C} cy={C} r={BARREL_OUTER_R}
-            fill="url(#barrel)"
-            stroke="#4a5260"
-            strokeWidth="2"
-          />
+          {/* Outer barrel body ring — visible steel collar */}
+          <circle cx={C} cy={C} r={BARREL_OUTER_R}      fill="url(#barrel-outer)" />
+          <circle cx={C} cy={C} r={BARREL_OUTER_R - 10} fill="url(#barrel)" />
+          {/* Bright outer edge ring — makes the drill clearly visible against dark bg */}
+          <circle cx={C} cy={C} r={BARREL_OUTER_R}      fill="none" stroke="#7a8898" strokeWidth="1.5" />
+          <circle cx={C} cy={C} r={BARREL_OUTER_R + 2}  fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="1" />
 
           {/* ─ Crown segments ─ */}
           {segments.map((startDeg, i) => {
@@ -145,8 +158,8 @@ export default function DrillBitViz() {
                 <path
                   d={annularSector(startDeg, SEG_SPAN, CROWN_OUTER_R, CROWN_INNER_R)}
                   fill="url(#seg-steel)"
-                  stroke="#8a94a8"
-                  strokeWidth="0.6"
+                  stroke="#aab4c4"
+                  strokeWidth="0.8"
                 />
 
                 {/* Cutting face — outermost 22% of crown, crimson diamond matrix */}
@@ -178,9 +191,9 @@ export default function DrillBitViz() {
                     <circle
                       key={j}
                       cx={px} cy={py}
-                      r={isCuttingZone ? 2.8 : 2.0}
-                      fill={isCuttingZone ? '#ffffff' : '#d1d8e0'}
-                      opacity={isCuttingZone ? 0.95 : 0.75}
+                      r={isCuttingZone ? 3.2 : 2.4}
+                      fill={isCuttingZone ? '#ffffff' : '#e8edf3'}
+                      opacity={1}
                       filter="url(#particle-glow)"
                     />
                   )
@@ -292,12 +305,6 @@ export default function DrillBitViz() {
         </motion.g>
       </svg>
 
-      {/* Label below */}
-      <div className="absolute bottom-2 left-1/2 -translate-x-1/2 text-center">
-        <p className="text-[10px] text-gray-600 tracking-[0.2em] uppercase font-mono">
-          Diamond Core Crown — Top View
-        </p>
-      </div>
     </div>
   )
 }
