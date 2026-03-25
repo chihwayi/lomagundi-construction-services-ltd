@@ -34,4 +34,7 @@ yarn-error.log*
 next-env.d.ts
 
 .credentials
-/docs
+.gitignore
+docs/formal
+docs/logo.jpeg
+docs/desc
