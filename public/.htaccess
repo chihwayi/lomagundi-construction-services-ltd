@@ -1,0 +1,11 @@
+Options -MultiViews
+RewriteEngine On
+
+RewriteRule ^_next/(.*)$ _next/$1 [L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.html -f
+RewriteRule ^(.+)$ $1.html [L,QSA]
+
+ErrorDocument 404 /404.html
