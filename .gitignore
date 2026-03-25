@@ -39,3 +39,6 @@ next-env.d.ts
 
 # private docs
 /docs
+
+# deployment (contains server credentials)
+deploy.sh
