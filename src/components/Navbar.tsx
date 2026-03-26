@@ -31,16 +31,16 @@ export default function Navbar() {
       )}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 lg:h-20">
+        <div className="flex items-center justify-between h-24 lg:h-32">
           {/* Logo */}
-          <a href="#" className="flex items-center gap-3 flex-shrink-0">
-            <div className="relative w-11 h-11 lg:w-14 lg:h-14 rounded overflow-hidden ring-2 ring-crimson/40">
+          <a href="#" className="flex items-center gap-3 flex-shrink-0 self-start mt-2">
+            <div className="relative w-20 h-20 lg:w-28 lg:h-28 rounded overflow-hidden">
               <Image
                 src="/logo.jpeg"
                 alt="Lomagundi Construction Services Ltd"
                 fill
-                sizes="48px"
-                className="object-cover"
+                sizes="112px"
+                className="object-contain"
                 priority
               />
             </div>

@@ -30,7 +30,7 @@ export default function Footer() {
           <div className="lg:col-span-1">
             <div className="flex items-center gap-3 mb-5">
               <div className="relative w-10 h-10 rounded overflow-hidden ring-2 ring-crimson/20">
-                <Image src="/logo.jpeg" alt="Lomagundi Construction" fill sizes="40px" className="object-cover" />
+                <Image src="/logo.jpeg" alt="Lomagundi Construction" fill sizes="40px" className="object-contain" />
               </div>
               <div>
                 <p className="font-display text-white text-sm font-bold tracking-wide leading-none">LOMAGUNDI</p>
