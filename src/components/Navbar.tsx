@@ -34,7 +34,7 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
           <a href="#" className="flex items-center gap-3 flex-shrink-0">
-            <div className="relative w-9 h-9 lg:w-11 lg:h-11 rounded overflow-hidden ring-2 ring-crimson/30">
+            <div className="relative w-11 h-11 lg:w-14 lg:h-14 rounded overflow-hidden ring-2 ring-crimson/40">
               <Image
                 src="/logo.jpeg"
                 alt="Lomagundi Construction Services Ltd"
@@ -45,10 +45,10 @@ export default function Navbar() {
               />
             </div>
             <div className="hidden sm:block">
-              <p className="font-display text-white text-sm lg:text-[15px] font-bold tracking-wide leading-none">
+              <p className="font-display text-white text-[15px] lg:text-[17px] font-bold tracking-wide leading-none">
                 LOMAGUNDI
               </p>
-              <p className="text-crimson text-[10px] lg:text-[11px] font-semibold tracking-[0.2em] mt-0.5">
+              <p className="text-crimson text-[10px] lg:text-[12px] font-semibold tracking-[0.2em] mt-0.5">
                 CONSTRUCTION SERVICES LTD
               </p>
             </div>

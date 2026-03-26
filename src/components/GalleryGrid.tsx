@@ -88,7 +88,7 @@ function Lightbox({ images, initialIndex, onClose }: LightboxProps) {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.18 }}
-      className="fixed inset-0 z-[200] bg-black/97 flex flex-col"
+      className="fixed inset-0 z-[200] bg-black flex flex-col"
     >
       {/* ── Header ── */}
       <div className="flex-shrink-0 flex items-center justify-between px-5 py-3 border-b border-white/8">
