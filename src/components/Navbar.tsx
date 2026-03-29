@@ -74,11 +74,11 @@ export default function Navbar() {
           {/* Desktop CTA */}
           <div className="hidden lg:flex items-center gap-4">
             <a
-              href="tel:+447853518902"
+              href="tel:+441635783890"
               className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors text-sm"
             >
               <Phone size={15} className="text-crimson" />
-              +44 7853 518902
+              +44 (0)1635 783890
             </a>
             <a
               href="#contact"
@@ -115,11 +115,11 @@ export default function Navbar() {
             ))}
             <div className="pt-4 flex flex-col gap-3">
               <a
-                href="tel:+447853518902"
+                href="tel:+441635783890"
                 className="flex items-center gap-2 text-gray-300 py-2 text-sm"
               >
                 <Phone size={15} className="text-crimson" />
-                +44 7853 518902
+                +44 (0)1635 783890
               </a>
               <a
                 href="#contact"

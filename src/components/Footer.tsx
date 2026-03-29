@@ -45,9 +45,13 @@ export default function Footer() {
               Precision work. Professional standards.
             </p>
             <div className="space-y-2.5">
+              <a href="tel:+441635783890" className="flex items-center gap-2 text-gray-500 hover:text-crimson transition-colors text-xs">
+                <Phone size={13} className="text-crimson" />
+                +44 (0)1635 783890
+              </a>
               <a href="tel:+447853518902" className="flex items-center gap-2 text-gray-500 hover:text-crimson transition-colors text-xs">
                 <Phone size={13} className="text-crimson" />
-                +44 7853 518902
+                +44 7853 518902 (Mobile)
               </a>
               <a
                 href="mailto:info@lomagundiconstructionservicesltd.co.uk"
@@ -112,10 +116,10 @@ export default function Footer() {
               For urgent Diamond Drilling & Sawing or Construction requirements, we&apos;re available around the clock.
             </p>
             <a
-              href="tel:+447853518902"
+              href="tel:+441635783890"
               className="block bg-crimson hover:bg-crimson-light text-white text-center font-semibold py-3 px-5 rounded-lg transition-colors text-sm mb-3"
             >
-              Call Now: +44 7853 518902
+              Call Now: +44 (0)1635 783890
             </a>
             <a
               href="https://wa.me/447853518902"

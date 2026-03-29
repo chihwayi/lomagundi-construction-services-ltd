@@ -201,7 +201,14 @@ export default function Contact() {
               {[
                 {
                   icon: Phone,
-                  title: 'Phone & WhatsApp',
+                  title: 'Office Line (Primary)',
+                  lines: ['+44 (0)1635 783890'],
+                  href: 'tel:+441635783890',
+                  color: 'crimson',
+                },
+                {
+                  icon: Phone,
+                  title: 'Mobile — Emergencies & WhatsApp',
                   lines: ['+44 7853 518902'],
                   href: 'tel:+447853518902',
                   color: 'crimson',

@@ -2,9 +2,10 @@
 import { motion } from 'framer-motion'
 import { Phone } from 'lucide-react'
 
-const PHONE = '+447853518902'
-const WHATSAPP_URL = `https://wa.me/${PHONE}`
-const CALL_URL = `tel:${PHONE}`
+const MOBILE = '+447853518902'
+const LANDLINE = '+441635783890'
+const WHATSAPP_URL = `https://wa.me/${MOBILE}`
+const CALL_URL = `tel:${LANDLINE}`
 
 export default function FloatingButtons() {
   return (
