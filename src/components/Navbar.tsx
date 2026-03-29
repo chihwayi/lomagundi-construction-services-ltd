@@ -45,10 +45,10 @@ export default function Navbar() {
               />
             </div>
             <div className="hidden sm:block">
-              <p className="font-display text-white text-[15px] lg:text-[17px] font-bold tracking-wide leading-none">
-                LOMAGUNDI
+              <p className="font-display text-[15px] lg:text-[17px] font-bold tracking-wide leading-none">
+                <span className="text-white">L</span><span className="text-crimson">O</span><span className="text-white">MAGUN</span><span className="text-crimson">D</span><span className="text-white">I</span>
               </p>
-              <p className="text-crimson text-[10px] lg:text-[12px] font-semibold tracking-[0.2em] mt-0.5">
+              <p className="text-royal text-[10px] lg:text-[12px] font-semibold tracking-[0.2em] mt-0.5">
                 CONSTRUCTION SERVICES LTD
               </p>
               <p className="font-cursive text-crimson text-[12px] lg:text-[14px] italic mt-1">

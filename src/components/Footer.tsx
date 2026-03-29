@@ -33,8 +33,10 @@ export default function Footer() {
                 <Image src="/logo.jpeg" alt="Lomagundi Construction" fill sizes="40px" className="object-contain" />
               </div>
               <div>
-                <p className="font-display text-white text-sm font-bold tracking-wide leading-none">LOMAGUNDI</p>
-                <p className="text-crimson text-[10px] font-semibold tracking-[0.15em] mt-0.5">
+                <p className="font-display text-sm font-bold tracking-wide leading-none">
+                  <span className="text-white">L</span><span className="text-crimson">O</span><span className="text-white">MAGUN</span><span className="text-crimson">D</span><span className="text-white">I</span>
+                </p>
+                <p className="text-royal text-[10px] font-semibold tracking-[0.15em] mt-0.5">
                   CONSTRUCTION SERVICES LTD
                 </p>
                 <p className="font-cursive text-crimson text-[11px] italic mt-0.5">✦✦✦ Inspire the next Generation ✦✦✦</p>
