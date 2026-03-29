@@ -9,7 +9,7 @@ const drillingServices = [
     description: 'Circular penetrations through concrete, masonry and brick for cables, pipes, conduits and ventilation — any diameter, any depth.',
   },
   {
-    title: 'Wall Sawing',
+    title: 'Wall/Track Sawing',
     description: 'Precise vertical and horizontal cuts for new door and window openings, structural modifications and service penetrations.',
   },
   {
@@ -39,12 +39,13 @@ const drillingServices = [
 ]
 
 const capabilities = [
-  'Diameters from 12mm to 1500mm',
+  'Diameters from 10mm – 1500mm',
+  'Reinforced concrete up to 3000mm thick',
+  '3 Phase Power',
+  'Generator Power 3kva – 100kva',
   'Depths up to 10 metres',
-  'Reinforced concrete up to 2m thick',
   'Wet & dry drilling available',
   'Dust suppression systems',
-  '240V & 110V power options',
 ]
 
 const certifications = [
@@ -67,18 +68,18 @@ export default function DiamondDrilling() {
           <div className="flex flex-wrap items-end gap-6 justify-between">
             <div>
               <span className="text-crimson text-sm font-semibold tracking-[0.2em] uppercase">Core Expertise</span>
-              <h2 className="font-display text-4xl sm:text-5xl font-bold text-white mt-3 max-w-xl">
+              <h2 className="font-display text-4xl sm:text-5xl font-bold text-slate-900 mt-3 max-w-xl">
                 Diamond Drilling &amp; Sawing
               </h2>
-              <p className="text-gray-400 mt-4 max-w-2xl leading-relaxed">
-                Diamond drilling is what we are qualified for — it is our cup of tea. Every operator holds
-                recognised industry certifications and we invest in the latest equipment to deliver cuts
-                of surgical precision, on time, every time.
+              <p className="text-gray-600 mt-4 max-w-2xl leading-relaxed">
+                Diamond Drilling &amp; Sawing is our Specialty, our cup of tea — it&apos;s what we do best.
+                Every operator holds recognised industry certifications, and we invest in the latest equipment
+                to deliver cuts of surgical precision, on time, every time.
               </p>
             </div>
             <div className="hidden md:flex flex-col gap-3">
               {certifications.map(({ icon: Icon, text }) => (
-                <div key={text} className="flex items-center gap-2 text-sm text-gray-300">
+                <div key={text} className="flex items-center gap-2 text-sm text-gray-700">
                   <Icon size={15} className="text-crimson flex-shrink-0" />
                   {text}
                 </div>
@@ -93,11 +94,11 @@ export default function DiamondDrilling() {
             <FadeIn key={svc.title} delay={i * 0.06}>
               <motion.div
                 whileHover={{ y: -3, borderColor: 'rgba(220,20,60,0.5)' }}
-                className="bg-dark-100 border border-white/8 rounded-xl p-5 h-full transition-all duration-300 group"
+                className="bg-dark-100 border border-slate-200 rounded-xl p-5 h-full transition-all duration-300 group"
               >
                 <div className="w-8 h-0.5 bg-crimson mb-4 group-hover:w-12 transition-all duration-300" />
-                <h4 className="font-display text-base font-bold text-white mb-2">{svc.title}</h4>
-                <p className="text-gray-500 text-xs leading-relaxed">{svc.description}</p>
+                <h4 className="font-display text-base font-bold text-slate-900 mb-2">{svc.title}</h4>
+                <p className="text-gray-600 text-xs leading-relaxed">{svc.description}</p>
               </motion.div>
             </FadeIn>
           ))}
@@ -107,10 +108,10 @@ export default function DiamondDrilling() {
         <FadeIn>
           <div className="bg-dark-200 border border-crimson/20 rounded-2xl p-8 grid md:grid-cols-2 gap-8 items-center">
             <div>
-              <h3 className="font-display text-2xl font-bold text-white mb-5">Technical Capabilities</h3>
+              <h3 className="font-display text-2xl font-bold text-slate-900 mb-5">Technical Capabilities</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {capabilities.map((cap) => (
-                  <div key={cap} className="flex items-center gap-2 text-sm text-gray-300">
+                  <div key={cap} className="flex items-center gap-2 text-sm text-gray-700">
                     <CheckCircle size={14} className="text-crimson flex-shrink-0" />
                     {cap}
                   </div>
@@ -118,7 +119,7 @@ export default function DiamondDrilling() {
               </div>
             </div>
             <div className="flex flex-col gap-4">
-              <p className="text-gray-400 leading-relaxed text-sm">
+              <p className="text-gray-600 leading-relaxed text-sm">
                 Whether you need a single core hole or a complex multi-phase drilling programme, our
                 team provides full method statements, risk assessments, and site-specific engineering
                 support.

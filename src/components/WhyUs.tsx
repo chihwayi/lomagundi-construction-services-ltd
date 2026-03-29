@@ -22,13 +22,13 @@ const differentiators = [
     icon: Users,
     title: 'Single Point of Accountability',
     description:
-      "Whether it's drilling, construction, or demolition — you deal with one company. We manage the coordination, compliance, and quality control end-to-end.",
+      "Whether it's Diamond Drilling & Sawing, Construction, or Demolition — you deal with one company. We manage the coordination, compliance, and quality control end-to-end.",
   },
   {
     icon: Clock,
     title: '24/7 Emergency Response',
     description:
-      "Construction doesn't stop at 5pm. Neither do we. Our emergency line is always open for urgent drilling and construction situations across the UK.",
+      "Construction doesn't stop at 5pm. Neither do we. Our emergency line is always open for urgent drilling and Construction situations across the UK.",
   },
   {
     icon: MapPin,
@@ -78,16 +78,16 @@ function CountUp({ target, suffix }: { target: number; suffix: string }) {
 export default function WhyUs() {
   return (
     <section className="py-24 bg-dark-100 relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-br from-crimson/5 via-transparent to-royal/5" />
+      <div className="absolute inset-0 bg-gradient-to-br from-crimson/10 via-transparent to-royal/10" />
       <div className="absolute inset-0 bg-grid-pattern" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <FadeIn className="text-center mb-16">
           <span className="text-crimson text-sm font-semibold tracking-[0.2em] uppercase">Why Choose Us</span>
-          <h2 className="font-display text-4xl sm:text-5xl font-bold text-white mt-3">
-            Built on Trust & Precision
+          <h2 className="font-display text-4xl sm:text-5xl font-bold text-slate-900 mt-3">
+            Built on Trust &amp; Precision
           </h2>
-          <p className="text-gray-400 mt-4 max-w-xl mx-auto">
+          <p className="text-gray-600 mt-4 max-w-xl mx-auto">
             Every project we take on carries our name — so we make sure it&apos;s done right.
           </p>
         </FadeIn>
@@ -96,8 +96,8 @@ export default function WhyUs() {
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
           {stats.map((stat, i) => (
             <FadeIn key={stat.label} delay={i * 0.1}>
-              <div className="text-center bg-dark-200 border border-white/8 rounded-2xl py-8 px-4">
-                <div className="font-display text-4xl sm:text-5xl font-bold text-white mb-2">
+              <div className="text-center bg-dark-200 border border-slate-200 rounded-2xl py-8 px-4">
+                <div className="font-display text-4xl sm:text-5xl font-bold text-slate-900 mb-2">
                   <CountUp target={stat.value} suffix={stat.suffix} />
                 </div>
                 <p className="text-gray-500 text-sm">{stat.label}</p>
@@ -114,14 +114,14 @@ export default function WhyUs() {
               <FadeIn key={item.title} delay={i * 0.1}>
                 <motion.div
                   whileHover={{ y: -3 }}
-                  className="bg-dark-200 border border-white/8 hover:border-crimson/30 rounded-2xl p-6 flex gap-5 transition-all duration-300"
+                  className="bg-dark-200 border border-slate-200 hover:border-crimson/30 rounded-2xl p-6 flex gap-5 transition-all duration-300"
                 >
                   <div className="w-11 h-11 bg-crimson/10 rounded-xl flex items-center justify-center flex-shrink-0">
                     <Icon size={20} className="text-crimson" />
                   </div>
                   <div>
-                    <h3 className="font-display text-lg font-bold text-white mb-2">{item.title}</h3>
-                    <p className="text-gray-400 text-sm leading-relaxed">{item.description}</p>
+                    <h3 className="font-display text-lg font-bold text-slate-900 mb-2">{item.title}</h3>
+                    <p className="text-gray-600 text-sm leading-relaxed">{item.description}</p>
                   </div>
                 </motion.div>
               </FadeIn>

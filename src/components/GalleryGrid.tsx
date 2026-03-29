@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, ChevronLeft, ChevronRight, ImageIcon, LayoutGrid } from 'lucide-react'
 import FadeIn from './FadeIn'
+import type { GalleryCategory } from './Gallery'
 
 const PREVIEW_COUNT = 9
 
@@ -38,7 +39,6 @@ function Lightbox({ images, initialIndex, onClose }: LightboxProps) {
     const load = (src: string) => { const i = new window.Image(); i.src = src }
     load(images[(index + 1) % images.length])
     load(images[(index - 1 + images.length) % images.length])
-    // Also preload two ahead for fast sequential swiping
     load(images[(index + 2) % images.length])
   }, [index, images])
 
@@ -75,7 +75,6 @@ function Lightbox({ images, initialIndex, onClose }: LightboxProps) {
     touchStartX.current = null
   }
 
-  // ── Slide variants — NO mode="wait", both animate concurrently ───────────
   const variants = {
     enter:  (d: number) => ({ x: d >= 0 ? '100%' : '-100%', opacity: 0   }),
     center:              ({ x: 0,                             opacity: 1   }),
@@ -113,7 +112,6 @@ function Lightbox({ images, initialIndex, onClose }: LightboxProps) {
         onTouchStart={onTouchStart}
         onTouchEnd={onTouchEnd}
       >
-        {/* Prev */}
         <button
           onClick={prev}
           className="absolute left-3 sm:left-5 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-white/8 hover:bg-white/18 border border-white/10 flex items-center justify-center transition-all hover:scale-105"
@@ -122,7 +120,6 @@ function Lightbox({ images, initialIndex, onClose }: LightboxProps) {
           <ChevronLeft size={20} className="text-white" />
         </button>
 
-        {/* Sliding images — concurrent: new slides in while old slides out */}
         <AnimatePresence initial={false} custom={dir}>
           <motion.div
             key={index}
@@ -134,7 +131,6 @@ function Lightbox({ images, initialIndex, onClose }: LightboxProps) {
             transition={{ duration: 0.32, ease: [0.32, 0.72, 0, 1] }}
             className="absolute inset-0 flex items-center justify-center px-14 sm:px-20"
           >
-            {/* Loading shimmer — visible until image is ready */}
             {!imgLoaded && (
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="w-10 h-10 border-2 border-white/15 border-t-crimson rounded-full animate-spin" />
@@ -157,7 +153,6 @@ function Lightbox({ images, initialIndex, onClose }: LightboxProps) {
           </motion.div>
         </AnimatePresence>
 
-        {/* Next */}
         <button
           onClick={next}
           className="absolute right-3 sm:right-5 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-white/8 hover:bg-white/18 border border-white/10 flex items-center justify-center transition-all hover:scale-105"
@@ -200,12 +195,99 @@ function Lightbox({ images, initialIndex, onClose }: LightboxProps) {
   )
 }
 
-// ─── Page gallery grid ────────────────────────────────────────────────────────
-export default function GalleryGrid({ images }: { images: string[] }) {
-  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
+// ─── Gallery Grid ─────────────────────────────────────────────────────────────
+interface GalleryGridProps {
+  images: string[]
+  categories: GalleryCategory[]
+}
 
+function ImageGrid({ images, onOpen }: { images: string[]; onOpen: (i: number) => void }) {
   const preview   = images.slice(0, PREVIEW_COUNT)
   const remaining = images.length - PREVIEW_COUNT
+
+  if (images.length === 0) {
+    return (
+      <FadeIn>
+        <div className="border-2 border-dashed border-slate-300 rounded-2xl py-24 px-8 text-center">
+          <div className="w-16 h-16 bg-slate-100 rounded-2xl flex items-center justify-center mx-auto mb-5">
+            <ImageIcon size={28} className="text-gray-400" />
+          </div>
+          <h3 className="font-display text-xl font-bold text-gray-500 mb-2">No photos yet</h3>
+          <p className="text-gray-500 text-sm max-w-sm mx-auto">
+            Photos will appear here once added to this category folder.
+          </p>
+        </div>
+      </FadeIn>
+    )
+  }
+
+  return (
+    <>
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3">
+        {preview.map((src, i) => {
+          const isLastCell = i === PREVIEW_COUNT - 1 && remaining > 0
+          return (
+            <FadeIn key={src} delay={i * 0.04}>
+              <motion.button
+                whileHover={{ scale: 1.015 }}
+                whileTap={{ scale: 0.97 }}
+                transition={{ duration: 0.18 }}
+                onClick={() => onOpen(i)}
+                className="relative w-full aspect-square rounded-xl overflow-hidden bg-dark-200 group block focus:outline-none focus-visible:ring-2 focus-visible:ring-crimson"
+                aria-label={isLastCell ? `View all ${images.length} photos` : `Open photo ${i + 1}`}
+              >
+                <Image
+                  src={src}
+                  alt={`Project ${i + 1}`}
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  sizes="(max-width: 640px) 50vw, 33vw"
+                />
+                {!isLastCell && (
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
+                )}
+                {isLastCell && (
+                  <div className="absolute inset-0 bg-black/72 flex flex-col items-center justify-center gap-1.5 group-hover:bg-black/60 transition-colors">
+                    <LayoutGrid size={26} className="text-white/80" />
+                    <span className="font-display text-3xl font-bold text-white leading-none">
+                      +{remaining}
+                    </span>
+                    <span className="text-xs text-gray-300 tracking-wide">more photos</span>
+                  </div>
+                )}
+              </motion.button>
+            </FadeIn>
+          )
+        })}
+      </div>
+
+      <FadeIn className="mt-8 text-center" delay={0.1}>
+        <button
+          onClick={() => onOpen(0)}
+          className="inline-flex items-center gap-2.5 border border-slate-300 hover:border-crimson/50 hover:text-crimson text-gray-600 px-8 py-3 rounded-xl font-semibold text-sm transition-all hover:bg-crimson/5"
+        >
+          <LayoutGrid size={15} />
+          View all {images.length} photos
+        </button>
+      </FadeIn>
+    </>
+  )
+}
+
+export default function GalleryGrid({ images, categories }: GalleryGridProps) {
+  const hasCats = categories.length > 0
+  const [activeTab, setActiveTab] = useState<string>(hasCats ? categories[0].slug : '__all__')
+  const [lightboxImages, setLightboxImages] = useState<string[]>([])
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
+
+  const activeImages = hasCats
+    ? (categories.find((c) => c.slug === activeTab)?.images ?? [])
+    : images
+
+  const openLightbox = (i: number) => {
+    setLightboxImages(activeImages)
+    setLightboxIndex(i)
+  }
 
   return (
     <>
@@ -213,78 +295,58 @@ export default function GalleryGrid({ images }: { images: string[] }) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <FadeIn className="text-center mb-14">
             <span className="text-crimson text-sm font-semibold tracking-[0.2em] uppercase">Our Work</span>
-            <h2 className="font-display text-4xl sm:text-5xl font-bold text-white mt-3">Project Gallery</h2>
-            {images.length > 0 && (
-              <p className="text-gray-500 mt-3 text-sm">
-                {images.length} photos — click any image to browse
-              </p>
-            )}
+            <h2 className="font-display text-4xl sm:text-5xl font-bold text-slate-900 mt-3">Project Gallery</h2>
           </FadeIn>
 
-          {images.length > 0 ? (
-            <>
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3">
-                {preview.map((src, i) => {
-                  const isLastCell = i === PREVIEW_COUNT - 1 && remaining > 0
-                  return (
-                    <FadeIn key={src} delay={i * 0.04}>
-                      <motion.button
-                        whileHover={{ scale: 1.015 }}
-                        whileTap={{ scale: 0.97 }}
-                        transition={{ duration: 0.18 }}
-                        onClick={() => setLightboxIndex(i)}
-                        className="relative w-full aspect-square rounded-xl overflow-hidden bg-dark-200 group block focus:outline-none focus-visible:ring-2 focus-visible:ring-crimson"
-                        aria-label={isLastCell ? `View all ${images.length} photos` : `Open photo ${i + 1}`}
-                      >
-                        <Image
-                          src={src}
-                          alt={`Project ${i + 1}`}
-                          fill
-                          className="object-cover group-hover:scale-105 transition-transform duration-500"
-                          sizes="(max-width: 640px) 50vw, 33vw"
-                        />
-                        {!isLastCell && (
-                          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
-                        )}
-                        {isLastCell && (
-                          <div className="absolute inset-0 bg-black/72 flex flex-col items-center justify-center gap-1.5 group-hover:bg-black/60 transition-colors">
-                            <LayoutGrid size={26} className="text-white/80" />
-                            <span className="font-display text-3xl font-bold text-white leading-none">
-                              +{remaining}
-                            </span>
-                            <span className="text-xs text-gray-300 tracking-wide">more photos</span>
-                          </div>
-                        )}
-                      </motion.button>
-                    </FadeIn>
-                  )
-                })}
+          {/* Category tabs */}
+          {hasCats && (
+            <FadeIn className="mb-10">
+              <div className="flex flex-wrap justify-center gap-3">
+                {categories.map((cat) => (
+                  <button
+                    key={cat.slug}
+                    onClick={() => setActiveTab(cat.slug)}
+                    className={`px-5 py-2.5 rounded-full text-sm font-semibold transition-all ${
+                      activeTab === cat.slug
+                        ? 'bg-crimson text-white shadow-lg shadow-crimson/20'
+                        : 'bg-slate-100 text-gray-600 hover:bg-slate-200 border border-slate-200'
+                    }`}
+                  >
+                    {cat.name}
+                    <span className={`ml-2 text-xs ${activeTab === cat.slug ? 'text-white/70' : 'text-gray-400'}`}>
+                      ({cat.images.length})
+                    </span>
+                  </button>
+                ))}
               </div>
+            </FadeIn>
+          )}
 
-              <FadeIn className="mt-8 text-center" delay={0.1}>
-                <button
-                  onClick={() => setLightboxIndex(0)}
-                  className="inline-flex items-center gap-2.5 border border-white/12 hover:border-crimson/50 hover:text-white text-gray-400 px-8 py-3 rounded-xl font-semibold text-sm transition-all hover:bg-crimson/5"
-                >
-                  <LayoutGrid size={15} />
-                  View all {images.length} photos
-                </button>
-              </FadeIn>
-            </>
-          ) : (
+          {/* Fallback: no categories, show all images */}
+          {!hasCats && images.length > 0 && (
+            <FadeIn className="mb-4 text-center">
+              <p className="text-gray-500 text-sm">
+                {images.length} photos — click any image to browse
+              </p>
+            </FadeIn>
+          )}
+
+          {!hasCats && images.length === 0 ? (
             <FadeIn>
-              <div className="border-2 border-dashed border-white/10 rounded-2xl py-24 px-8 text-center">
-                <div className="w-16 h-16 bg-white/5 rounded-2xl flex items-center justify-center mx-auto mb-5">
-                  <ImageIcon size={28} className="text-gray-600" />
+              <div className="border-2 border-dashed border-slate-300 rounded-2xl py-24 px-8 text-center">
+                <div className="w-16 h-16 bg-slate-100 rounded-2xl flex items-center justify-center mx-auto mb-5">
+                  <ImageIcon size={28} className="text-gray-400" />
                 </div>
                 <h3 className="font-display text-xl font-bold text-gray-500 mb-2">Gallery Coming Soon</h3>
-                <p className="text-gray-600 text-sm max-w-sm mx-auto">
-                  Drop any images into{' '}
-                  <code className="text-crimson/70 bg-white/5 px-1 rounded">public/images/</code> and
+                <p className="text-gray-500 text-sm max-w-sm mx-auto">
+                  Drop images into{' '}
+                  <code className="text-crimson/70 bg-slate-100 px-1 rounded">public/images/</code> and
                   they appear here automatically.
                 </p>
               </div>
             </FadeIn>
+          ) : (
+            <ImageGrid images={activeImages} onOpen={openLightbox} />
           )}
         </div>
       </section>
@@ -292,7 +354,7 @@ export default function GalleryGrid({ images }: { images: string[] }) {
       <AnimatePresence>
         {lightboxIndex !== null && (
           <Lightbox
-            images={images}
+            images={lightboxImages}
             initialIndex={lightboxIndex}
             onClose={() => setLightboxIndex(null)}
           />

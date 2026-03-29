@@ -1,16 +1,16 @@
 'use client'
 import { motion } from 'framer-motion'
-import { Drill, HardHat, Hammer, ArrowRight } from 'lucide-react'
+import { Gem, HardHat, Hammer, ArrowRight } from 'lucide-react'
 import FadeIn from './FadeIn'
 
 const services = [
   {
-    icon: Drill,
+    icon: Gem,
     title: 'Diamond Drilling & Sawing',
     subtitle: 'Our Core Expertise',
     description:
-      'As qualified diamond drilling specialists, we deliver unmatched precision for any substrate — concrete, reinforced concrete, brick, stone, or asphalt. This is where our expertise runs deepest.',
-    features: ['Core Drilling', 'Wall Sawing', 'Wire Sawing', 'Floor Sawing', 'Ring Sawing', 'Stitch Drilling'],
+      'As qualified Diamond Drilling & Sawing specialists, we deliver unmatched precision for any substrate — concrete, reinforced concrete, brick, stone, or asphalt. This is where our expertise runs deepest.',
+    features: ['Core Drilling', 'Wall/Track Sawing', 'Wire Sawing', 'Floor Sawing', 'Ring Sawing', 'Stitch Drilling'],
     href: '#drilling',
     accent: 'crimson',
     large: true,
@@ -21,7 +21,7 @@ const services = [
     subtitle: 'Managed by Professionals',
     description:
       'From structural works and commercial refurbishment to new builds and extensions — delivered through our trusted network of specialist contractors operating under our management.',
-    features: ['New Builds', 'Refurbishment', 'Structural Works', 'Extensions'],
+    features: ['New Builds', 'Refurbishment', 'Structural Works', 'Enablement Works'],
     href: '#construction',
     accent: 'royal',
     large: false,
@@ -31,7 +31,7 @@ const services = [
     title: 'Demolition',
     subtitle: 'Safe & Controlled',
     description:
-      'Controlled structural and selective demolition services, strip-outs, and soft strip works. Planned, managed, and executed to the highest UK safety standards.',
+      'Controlled structural and selective Demolition services, strip-outs, and soft strip works. Planned, managed, and executed to the highest UK safety standards.',
     features: ['Structural Demolition', 'Soft Strip', 'Selective Demolition', 'Strip Out'],
     href: '#demolition',
     accent: 'accent',
@@ -66,10 +66,10 @@ export default function ServicesOverview() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <FadeIn className="text-center mb-16">
           <span className="text-crimson text-sm font-semibold tracking-[0.2em] uppercase">What We Do</span>
-          <h2 className="font-display text-4xl sm:text-5xl font-bold text-white mt-3">
+          <h2 className="font-display text-4xl sm:text-5xl font-bold text-slate-900 mt-3">
             Our Services
           </h2>
-          <p className="text-gray-400 mt-4 max-w-xl mx-auto">
+          <p className="text-gray-600 mt-4 max-w-xl mx-auto">
             Specialised construction services built on precision, expertise, and the highest UK standards.
           </p>
         </FadeIn>
@@ -99,12 +99,12 @@ export default function ServicesOverview() {
                     </span>
                   </div>
 
-                  <h3 className="font-display text-2xl font-bold text-white mb-3">{svc.title}</h3>
-                  <p className="text-gray-400 text-sm leading-relaxed mb-5 flex-grow">{svc.description}</p>
+                  <h3 className="font-display text-2xl font-bold text-slate-900 mb-3">{svc.title}</h3>
+                  <p className="text-gray-600 text-sm leading-relaxed mb-5 flex-grow">{svc.description}</p>
 
                   <div className="flex flex-wrap gap-2 mb-6">
                     {svc.features.map((f) => (
-                      <span key={f} className="text-xs text-gray-400 bg-white/5 px-3 py-1 rounded-full">
+                      <span key={f} className="text-xs text-gray-600 bg-slate-100 px-3 py-1 rounded-full">
                         {f}
                       </span>
                     ))}

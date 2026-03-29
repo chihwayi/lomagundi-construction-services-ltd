@@ -25,11 +25,11 @@ const config: Config = {
           dark: '#5B21B6',
         },
         dark: {
-          DEFAULT: '#0A0A0F',
-          100: '#12121A',
-          200: '#1A1A26',
-          300: '#252535',
-          400: '#32324A',
+          DEFAULT: '#F0F9FF',
+          100: '#E0F2FE',
+          200: '#FFFFFF',
+          300: '#F1F5F9',
+          400: '#E2E8F0',
         },
       },
       fontFamily: {
