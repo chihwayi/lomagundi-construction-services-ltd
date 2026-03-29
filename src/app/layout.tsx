@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Inter, Oswald } from 'next/font/google'
+import { Inter, Oswald, Dancing_Script } from 'next/font/google'
 import './globals.css'
 
 const inter = Inter({
@@ -11,6 +11,12 @@ const inter = Inter({
 const oswald = Oswald({
   subsets: ['latin'],
   variable: '--font-oswald',
+  display: 'swap',
+})
+
+const dancing = Dancing_Script({
+  subsets: ['latin'],
+  variable: '--font-dancing',
   display: 'swap',
 })
 
@@ -47,7 +53,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={`${inter.variable} ${oswald.variable}`}>
+    <html lang="en" className={`${inter.variable} ${oswald.variable} ${dancing.variable}`}>
       <body className="font-sans bg-dark text-white antialiased">{children}</body>
     </html>
   )

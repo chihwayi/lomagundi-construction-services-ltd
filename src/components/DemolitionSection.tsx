@@ -31,13 +31,13 @@ export default function DemolitionSection() {
                 <div className="w-10 h-10 bg-accent/10 rounded-xl flex items-center justify-center">
                   <Hammer size={20} className="text-accent" />
                 </div>
-                <h3 className="font-display text-xl font-bold text-slate-900">Our Demolition Services</h3>
+                <h3 className="font-display text-xl font-bold text-white">Our Demolition Services</h3>
               </div>
               <div className="space-y-3 mb-6">
                 {services.map((svc) => (
-                  <div key={svc} className="flex items-center gap-3 py-2.5 border-b border-slate-100 last:border-0">
+                  <div key={svc} className="flex items-center gap-3 py-2.5 border-b border-white/5 last:border-0">
                     <CheckCircle size={15} className="text-accent flex-shrink-0" />
-                    <span className="text-gray-700 text-sm">{svc}</span>
+                    <span className="text-gray-300 text-sm">{svc}</span>
                   </div>
                 ))}
               </div>
@@ -49,7 +49,7 @@ export default function DemolitionSection() {
                 </div>
                 <div className="space-y-1">
                   {safeguards.map((s) => (
-                    <p key={s} className="text-xs text-gray-600">• {s}</p>
+                    <p key={s} className="text-xs text-gray-400">• {s}</p>
                   ))}
                 </div>
               </div>
@@ -59,15 +59,15 @@ export default function DemolitionSection() {
           {/* Right — text */}
           <FadeIn direction="left" delay={0.1}>
             <span className="text-accent text-sm font-semibold tracking-[0.2em] uppercase">Secondary Service</span>
-            <h2 className="font-display text-4xl sm:text-5xl font-bold text-slate-900 mt-3 mb-5">
+            <h2 className="font-display text-4xl sm:text-5xl font-bold text-white mt-3 mb-5">
               Demolition
             </h2>
-            <p className="text-gray-600 leading-relaxed mb-6">
+            <p className="text-gray-400 leading-relaxed mb-6">
               Controlled Demolition requires expert planning. We co-ordinate specialist demolition
               contractors with proven track records in structural and selective Demolition — always
               operating under our strict oversight and safety management framework.
             </p>
-            <p className="text-gray-600 leading-relaxed mb-8">
+            <p className="text-gray-400 leading-relaxed mb-8">
               From simple soft strip to complex structural takedowns, we ensure every project is
               delivered safely, legally, and with minimum disruption to the surrounding area.
             </p>

@@ -25,16 +25,17 @@ const config: Config = {
           dark: '#5B21B6',
         },
         dark: {
-          DEFAULT: '#F0F9FF',
-          100: '#E0F2FE',
-          200: '#FFFFFF',
-          300: '#F1F5F9',
-          400: '#E2E8F0',
+          DEFAULT: '#0A0A0F',
+          100: '#12121A',
+          200: '#1A1A26',
+          300: '#252535',
+          400: '#32324A',
         },
       },
       fontFamily: {
         sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],
         display: ['var(--font-oswald)', 'sans-serif'],
+        cursive: ['var(--font-dancing)', 'cursive'],
       },
       backgroundImage: {
         'grid-dark': "linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)",

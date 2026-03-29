@@ -55,7 +55,7 @@ export default function Contact() {
   }
 
   const inputCls =
-    'w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-slate-900 text-sm placeholder-gray-400 focus:outline-none focus:border-crimson/60 focus:ring-1 focus:ring-crimson/30 transition-all'
+    'w-full bg-dark-300/60 border border-white/10 rounded-xl px-4 py-3 text-white text-sm placeholder-gray-600 focus:outline-none focus:border-crimson/60 focus:ring-1 focus:ring-crimson/30 transition-all'
 
   return (
     <section id="contact" className="py-24 bg-dark-100 relative overflow-hidden">
@@ -65,10 +65,10 @@ export default function Contact() {
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <FadeIn className="text-center mb-16">
           <span className="text-crimson text-sm font-semibold tracking-[0.2em] uppercase">Get in Touch</span>
-          <h2 className="font-display text-4xl sm:text-5xl font-bold text-slate-900 mt-3">
+          <h2 className="font-display text-4xl sm:text-5xl font-bold text-white mt-3">
             Request a Free Quote
           </h2>
-          <p className="text-gray-600 mt-4 max-w-xl mx-auto">
+          <p className="text-gray-400 mt-4 max-w-xl mx-auto">
             Tell us about your project and we&apos;ll get back to you within 24 hours with a tailored proposal.
           </p>
         </FadeIn>
@@ -76,10 +76,10 @@ export default function Contact() {
         <div className="grid lg:grid-cols-5 gap-12">
           {/* Form */}
           <FadeIn className="lg:col-span-3">
-            <form onSubmit={handleSubmit} className="bg-dark-200 border border-slate-200 rounded-2xl p-8 space-y-5">
+            <form onSubmit={handleSubmit} className="bg-dark-200 border border-white/8 rounded-2xl p-8 space-y-5">
               <div className="grid sm:grid-cols-2 gap-5">
                 <div>
-                  <label className="block text-xs font-semibold text-gray-600 mb-2 uppercase tracking-wider">
+                  <label className="block text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wider">
                     Full Name *
                   </label>
                   <input
@@ -93,7 +93,7 @@ export default function Contact() {
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-gray-600 mb-2 uppercase tracking-wider">
+                  <label className="block text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wider">
                     Email Address *
                   </label>
                   <input
@@ -110,7 +110,7 @@ export default function Contact() {
 
               <div className="grid sm:grid-cols-2 gap-5">
                 <div>
-                  <label className="block text-xs font-semibold text-gray-600 mb-2 uppercase tracking-wider">
+                  <label className="block text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wider">
                     Phone Number
                   </label>
                   <input
@@ -123,7 +123,7 @@ export default function Contact() {
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-gray-600 mb-2 uppercase tracking-wider">
+                  <label className="block text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wider">
                     Service Required
                   </label>
                   <select name="service" value={form.service} onChange={handleChange} className={inputCls}>
@@ -158,8 +158,8 @@ export default function Contact() {
                   animate={{ opacity: 1, y: 0 }}
                   className="flex items-center gap-3 bg-green-500/10 border border-green-500/30 rounded-xl px-4 py-3"
                 >
-                  <CheckCircle size={16} className="text-green-600" />
-                  <p className="text-green-700 text-sm">
+                  <CheckCircle size={16} className="text-green-400" />
+                  <p className="text-green-400 text-sm">
                     Message sent! We&apos;ll be in touch within 24 hours.
                   </p>
                 </motion.div>
@@ -228,7 +228,7 @@ export default function Contact() {
               ].map(({ icon: Icon, title, lines, href, color }) => (
                 <div
                   key={title}
-                  className="bg-dark-200 border border-slate-200 rounded-2xl p-5 flex gap-4 items-start"
+                  className="bg-dark-200 border border-white/8 rounded-2xl p-5 flex gap-4 items-start"
                 >
                   <div
                     className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${
@@ -257,12 +257,12 @@ export default function Contact() {
                         <a
                           key={line}
                           href={href}
-                          className="block text-sm text-gray-700 hover:text-slate-900 transition-colors break-all"
+                          className="block text-sm text-gray-300 hover:text-white transition-colors break-all"
                         >
                           {line}
                         </a>
                       ) : (
-                        <p key={line} className="text-sm text-gray-700">
+                        <p key={line} className="text-sm text-gray-300">
                           {line}
                         </p>
                       )

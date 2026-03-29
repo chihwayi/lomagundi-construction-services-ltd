@@ -39,9 +39,9 @@ export default function Hero() {
           {/* ── Left — content ── */}
           <div>
             {/* Badge */}
-            <motion.div {...fadeUp(0.1)} className="inline-flex items-center gap-2 bg-sky-100 border border-crimson/30 rounded-full px-4 py-2 mb-6">
+            <motion.div {...fadeUp(0.1)} className="inline-flex items-center gap-2 bg-white/5 border border-crimson/30 rounded-full px-4 py-2 mb-6">
               <span className="w-2 h-2 bg-crimson rounded-full animate-ping" />
-              <span className="text-xs sm:text-sm text-slate-700 font-medium tracking-wide">
+              <span className="text-xs sm:text-sm text-gray-300 font-medium tracking-wide">
                 UK Diamond Drilling &amp; Construction Specialists
               </span>
             </motion.div>
@@ -51,17 +51,17 @@ export default function Hero() {
               {...fadeUp(0.22)}
               className="font-display text-5xl sm:text-6xl lg:text-7xl font-bold leading-[1.05] mb-6"
             >
-              <span className="text-slate-900">Precision Core</span>
+              <span className="text-white">Precision Core</span>
               <br />
               <span className="text-gradient-crimson">Drilling.</span>
               <br />
-              <span className="text-slate-900">Built to Last.</span>
+              <span className="text-white">Built to Last.</span>
             </motion.h1>
 
             {/* Subtext */}
             <motion.p
               {...fadeUp(0.34)}
-              className="text-slate-600 text-base sm:text-lg leading-relaxed mb-8 max-w-lg"
+              className="text-gray-400 text-base sm:text-lg leading-relaxed mb-8 max-w-lg"
             >
               Lomagundi Construction Services Ltd delivers world-class Diamond Drilling &amp; Sawing,
               Construction, and Demolition across the UK. Qualified operators. Uncompromising standards.
@@ -77,7 +77,7 @@ export default function Hero() {
               </a>
               <a
                 href="#contact"
-                className="flex items-center gap-2 border border-slate-300 hover:border-crimson/50 text-slate-900 hover:text-crimson px-7 py-3.5 rounded font-semibold tracking-wide transition-all text-sm sm:text-base"
+                className="flex items-center gap-2 border border-white/20 hover:border-crimson/50 text-white hover:text-crimson px-7 py-3.5 rounded font-semibold tracking-wide transition-all text-sm sm:text-base"
               >
                 Get Free Quote
               </a>
@@ -92,7 +92,7 @@ export default function Hero() {
                 <div key={label} className="flex flex-col items-start">
                   <div className="flex items-center gap-2 mb-1">
                     <Icon size={14} className="text-crimson" />
-                    <span className="font-display text-xl font-bold text-slate-900">{value}</span>
+                    <span className="font-display text-xl font-bold text-white">{value}</span>
                   </div>
                   <span className="text-xs text-gray-500 leading-tight">{label}</span>
                 </div>
@@ -108,7 +108,7 @@ export default function Hero() {
             <DrillBitViz />
 
             <motion.div
-              className="absolute top-8 right-0 bg-white/90 border border-slate-200 rounded-xl px-4 py-3 backdrop-blur-sm"
+              className="absolute top-8 right-0 bg-dark-200/90 border border-white/10 rounded-xl px-4 py-3 backdrop-blur-sm"
               animate={{ y: [0, -7, 0] }}
               transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
             >
@@ -117,7 +117,7 @@ export default function Hero() {
             </motion.div>
 
             <motion.div
-              className="absolute bottom-8 left-0 bg-white/90 border border-slate-200 rounded-xl px-4 py-3 backdrop-blur-sm"
+              className="absolute bottom-8 left-0 bg-dark-200/90 border border-white/10 rounded-xl px-4 py-3 backdrop-blur-sm"
               animate={{ y: [0, 7, 0] }}
               transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
             >

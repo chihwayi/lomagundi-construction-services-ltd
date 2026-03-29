@@ -26,7 +26,7 @@ export default function Navbar() {
       className={cn(
         'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
         scrolled
-          ? 'bg-dark-100/95 backdrop-blur-md border-b border-slate-200 shadow-lg shadow-slate-200/50'
+          ? 'bg-dark-100/95 backdrop-blur-md border-b border-white/5 shadow-lg shadow-black/20'
           : 'border-b border-transparent'
       )}
     >
@@ -45,14 +45,14 @@ export default function Navbar() {
               />
             </div>
             <div className="hidden sm:block">
-              <p className="font-display text-slate-900 text-[15px] lg:text-[17px] font-bold tracking-wide leading-none">
+              <p className="font-display text-white text-[15px] lg:text-[17px] font-bold tracking-wide leading-none">
                 LOMAGUNDI
               </p>
-              <p className="text-slate-500 text-[10px] lg:text-[12px] font-bold tracking-[0.2em] mt-0.5">
+              <p className="text-crimson text-[10px] lg:text-[12px] font-semibold tracking-[0.2em] mt-0.5">
                 CONSTRUCTION SERVICES LTD
               </p>
-              <p className="text-crimson text-[9px] lg:text-[10px] italic font-bold mt-1">
-                Inspire the next Generation
+              <p className="font-cursive text-crimson text-[12px] lg:text-[14px] italic mt-1">
+                ✦✦✦ Inspire the next Generation ✦✦✦
               </p>
             </div>
           </a>
@@ -63,7 +63,7 @@ export default function Navbar() {
               <a
                 key={link.href}
                 href={link.href}
-                className="text-gray-600 hover:text-slate-900 text-sm font-medium tracking-wide transition-colors relative group"
+                className="text-gray-400 hover:text-white text-sm font-medium tracking-wide transition-colors relative group"
               >
                 {link.label}
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-crimson group-hover:w-full transition-all duration-300" />
@@ -75,7 +75,7 @@ export default function Navbar() {
           <div className="hidden lg:flex items-center gap-4">
             <a
               href="tel:+447853518902"
-              className="flex items-center gap-2 text-gray-600 hover:text-slate-900 transition-colors text-sm"
+              className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors text-sm"
             >
               <Phone size={15} className="text-crimson" />
               +44 7853 518902
@@ -91,7 +91,7 @@ export default function Navbar() {
           {/* Mobile toggle */}
           <button
             onClick={() => setMenuOpen(!menuOpen)}
-            className="lg:hidden text-slate-900 p-2 rounded hover:bg-slate-100 transition-colors"
+            className="lg:hidden text-white p-2 rounded hover:bg-white/5 transition-colors"
             aria-label="Toggle menu"
           >
             {menuOpen ? <X size={22} /> : <Menu size={22} />}
@@ -101,14 +101,14 @@ export default function Navbar() {
 
       {/* Mobile menu */}
       {menuOpen && (
-        <div className="lg:hidden bg-dark-100/98 backdrop-blur-md border-t border-slate-200">
+        <div className="lg:hidden bg-dark-100/98 backdrop-blur-md border-t border-white/5">
           <div className="max-w-7xl mx-auto px-4 py-5 space-y-1">
             {NAV_LINKS.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
                 onClick={() => setMenuOpen(false)}
-                className="block text-gray-700 hover:text-slate-900 py-3 px-2 text-base font-medium border-b border-slate-100 transition-colors"
+                className="block text-gray-300 hover:text-white py-3 px-2 text-base font-medium border-b border-white/5 transition-colors"
               >
                 {link.label}
               </a>
@@ -116,7 +116,7 @@ export default function Navbar() {
             <div className="pt-4 flex flex-col gap-3">
               <a
                 href="tel:+447853518902"
-                className="flex items-center gap-2 text-gray-700 py-2 text-sm"
+                className="flex items-center gap-2 text-gray-300 py-2 text-sm"
               >
                 <Phone size={15} className="text-crimson" />
                 +44 7853 518902
