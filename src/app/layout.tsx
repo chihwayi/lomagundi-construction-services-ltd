@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Script from 'next/script'
 import { Inter, Oswald, Dancing_Script } from 'next/font/google'
 import './globals.css'
 
@@ -54,7 +55,18 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${inter.variable} ${oswald.variable} ${dancing.variable}`}>
-      <body className="font-sans bg-dark text-white antialiased">{children}</body>
+      <body className="font-sans bg-dark text-white antialiased">
+        <Script async src="https://www.googletagmanager.com/gtag/js?id=G-HKSLLF4ML3" />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-HKSLLF4ML3');
+          `}
+        </Script>
+        {children}
+      </body>
     </html>
   )
 }
